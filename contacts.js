@@ -8,7 +8,7 @@ const contactsPath = path.join(__dirname, "./db/contacts.json");
 
 async function listContacts() {
   // console.log("listContacts >>> ", contactsPath)
-  console.log("listContacts >>> ");
+  // console.log("listContacts >>> ");
   const listContacts = JSON.parse(await fs.readFile(contactsPath));
   return listContacts;
 }
@@ -25,16 +25,18 @@ async function addContact(data) {
   const newList = (await listContacts())
   newList.push(newContact);
   await fs.writeFile(contactsPath, JSON.stringify(newList, null, 2));
-  return (newList)
+  return (newContact)
 }
 
-async function removeContact(contactId) { 
-  const newList = await listContacts();
-  const index = newList.findIndex(item => item.id === contactId);
+async function removeContact(contactId) {
+  const contacts = await listContacts();
+  const index = contacts.findIndex((item) => item.id === contactId);
   if (index === -1) return null;
-  const [result] = newList.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(newList, null, 2));
-  return result;
+  result = contacts[index];
+  contacts.splice(index, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+
+  return (result);
 }
 
 module.exports = {
