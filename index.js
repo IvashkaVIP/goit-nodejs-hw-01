@@ -1,9 +1,14 @@
 const { Command } = require("commander");
+const { clear } = require("console");
 const { nanoid } = require("nanoid");
 const program = new Command();
 const fs = require("fs").promises;
+const contacts = require("./contacts.js");
 
-program.name("nodejs-hw1").description("CLI to nodejs-hw1").version("1.0.0");
+program
+  .name("nodejs-hw1")
+  .description("CLI on the nodejs-hw1")
+  .version("1.0.0");
 
 // listContacts()
 // Возвращает массив контактов.
@@ -61,7 +66,37 @@ program
     console.log(str.split(options.separator, limit));
   });
 
+//-----------------------------------------------
+program
+  .command("test")
+  .description("Split a string into substrings and display as an array")
+  // .argument("<string>", "string to split")
+  .option("--first", "display just the first substring")
+  .option("-s, --separator <char>", "separator character", ",")
+  .action(async (str, options) => {
+    // console.log("test >>>> ", await contacts.listContacts());
+    // console.log(
+    //   "test >>>> ",
+    //         await contacts.getContactById("05olLMgyVQdWRwgKfg5J6")
+    // );
+    console.log(
+      "test >>> ",
+      await contacts.addContact({
+        name: "Bob",
+        email: "bob@mail.com",
+        phone: "(123)45678",
+      })
+    );
+   
+    // console.log("test >>> ", await contacts.removeContact('rmt051tt8POfH06Zn_jNq'));
+    
+    // const limit = options.first ? 1 : undefined;
+    // console.log(str.split(options.separator, limit));
+  });
+
 program.parse(process.argv);
+
+//--------------------------------------------
 
 //      "id": "AeHIrLTr6JkxGE6SN-0Rw",
 //     "name": "Allen Raymond",
